@@ -85,6 +85,7 @@ public class N02_TestLogin extends ActivityInstrumentationTestCase2<MainActivity
 		solo.waitForText(Tools.MAIN_SIGN);
 		Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
 		
+		//使用测试数据测试帐号登录
 		for(int i=0;i<len;i++){
 			String[] arr = testData[i].split(",");
 			Tools.removeText(solo, Tools.NAME_BOX);
