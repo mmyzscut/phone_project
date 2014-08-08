@@ -182,4 +182,30 @@ public class Tools {
 		return res;
 	}
 	
+	public static String getRandomName(int len){
+		String name = "";
+		String chars = "qwertyuiopasdfghjklzxcvbnm1234567890";
+		if(len == 0)
+			return name;
+		else{
+			for(int i=0;i<len;i++){
+				name = name + chars.charAt((int)(Math.random()*36));
+			}
+			return name;
+		}
+	}
+	
+	public static String getRandomNameFromNum(int len){
+		String name = "";
+		String chars = "1234567890";
+		if(len == 0)
+			return name;
+		else{
+			for(int i=0;i<len;i++){
+				name = name + chars.charAt((int)(Math.random()*10));
+			}
+			return name;
+		}
+	}
+	
 }

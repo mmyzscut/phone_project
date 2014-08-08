@@ -25,22 +25,19 @@ public class N01_TestRegister extends ActivityInstrumentationTestCase2<MainActiv
 	private Solo solo;
 	
 	private String[] testData = {
-			//"`。？ aj0%,123456,false,false,连接失败，错误码262",
-			//"adfHOHsde,123456,false,false,帐号注册成功",
-			//"ADFHOHSDE,123456,false,false,帐号名已存在",
-			//"abcdefgs,123456,false,false,帐号注册成功",
-			//"ANDHKJIH,123456,false,false,帐号注册成功",
-			//"12393710,123456,false,fasle,帐号注册成功",
-			//"1120123@qq.com,123456,false,false,帐号注册成功",
-			//"asjdhflhhjhj,123456,false,false,帐号注册成功",
-			//"sdfjkhaskljd,1234567890123456789012,false,false,帐号注册成功",
-			//"sdfjhkjahf,12345678,false,false,帐号注册成功",
-			//"dhjkshfjksdh,12345,false,false,请输入6~32位长度的密码",
+			"`。？ aj0%,1234567,false,false,请输入有效的偶玩通行证帐号",
+			Tools.getRandomName(9)+",1234567,false,false,帐号注册成功",
+			Tools.getRandomName(6).toUpperCase()+Tools.getRandomName(3)+ ",1234567,false,false,帐号注册成功",
+			Tools.getRandomNameFromNum(9) + ",1234567,false,fasle,帐号注册成功",
+			Tools.getRandomNameFromNum(9)+"@qq.com,1234567,false,false,帐号注册成功",
+			Tools.getRandomName(9) + ",123456,false,false,帐号注册成功",
+			Tools.getRandomName(9) + ",1234567890123456789012,false,false,帐号注册成功",
+			Tools.getRandomName(9) + ",12345,false,false,请输入6~32位长度的密码",
 			//实验证明密码没有长度的限制："asdjfhajhfjds,12345678901234567890123,false,false,请输入6~32位长度的密码",
 			"sdhfjkha,1234567,123456789012,false,请输入11位手机号码或留空",
 			"lsdfkkljsda,1234567,12345678901,false,请输入短信验证码",
 			"sdhfjkha,1234567,123456789,false,请输入11位手机号码或留空",
-			"ajkdjfldh,1234567,12345678901,true,帐号注册成功"};
+			Tools.getRandomName(10)+",1234567,12345678901,true,帐号注册成功"};
 	
 	public N01_TestRegister(){
 		super(MainActivity.class);
