@@ -9,7 +9,7 @@
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
         android:targetPackage="com.umipay.android.umipaysdkdemo" />
-    
+        
     <instrumentation
         android:name="com.neenbedankt.android.test.InstrumentationTestRunner"
         android:targetPackage="com.umipay.android.umipaysdkdemo" />

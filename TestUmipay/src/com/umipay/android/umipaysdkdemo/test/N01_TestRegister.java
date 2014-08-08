@@ -23,6 +23,7 @@ import com.umipay.android.umipaysdkdemo.MainActivity;
 
 public class N01_TestRegister extends ActivityInstrumentationTestCase2<MainActivity>{
 	private Solo solo;
+	
 	private String[] testData = {
 			//"`。？ aj0%,123456,false,false,连接失败，错误码262",
 			//"adfHOHsde,123456,false,false,帐号注册成功",
@@ -47,13 +48,13 @@ public class N01_TestRegister extends ActivityInstrumentationTestCase2<MainActiv
 	
 	@Before
 	public void setUp()throws Exception{
-		Log.v("N01_TestRegister", "执行setUp()");
+		Log.v("N01_TestRegister", "setUp()");
 		solo = new Solo(getInstrumentation(),getActivity());
 	}
 	
 	@After
 	public void tearDown()throws Exception{
-		Log.v("N01_TestRegister", "执行tearDown()");
+		Log.v("N01_TestRegister", "tearDown()");
 		solo.finishOpenedActivities();
 	}
 	
