@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.Suppress;
 import android.util.Log;
 
 import com.robotium.solo.Solo;
@@ -14,9 +15,9 @@ public class N02_TestLogin extends ActivityInstrumentationTestCase2<MainActivity
 
 	private Solo solo;
 	private String[] testData = {
-			"ABCDEFKK,123456789012345,success",
+			"ABCDEFKK,1234567,success",
 			"abcdefghgg,1234567,success",
-			"abcdEFKK,123456789012345,success",
+			"abcdEFKK,1234567,success",
 			"abcdefkkk,1234567,帐号名不存在",
 			"abcdefkk,12345,密码错误"
 	};
@@ -38,7 +39,7 @@ public class N02_TestLogin extends ActivityInstrumentationTestCase2<MainActivity
 	}
 	
 	//测试登录界面的连接是否可达相应界面
-	@Test
+	@Suppress
 	public void testLogin_1(){
 		Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
 		boolean expected = true;
@@ -91,7 +92,7 @@ public class N02_TestLogin extends ActivityInstrumentationTestCase2<MainActivity
 			Tools.enterTextById(solo, Tools.PSW_BOX, arr[1], 1000);
 			if(arr[2].equals("success")){
 				actual = Tools.clickById(solo, Tools.LOGIN_BTN, Tools.LOGIN_SUCCESS_SIGN);
-				assertEquals(Tools.LOGIN_BTN, expected, actual);
+				assertEquals(Tools.LOGIN_BTN+":"+testData[i], expected, actual);
 				solo.waitForText(Tools.MAIN_SIGN);
 				Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
 			}else{

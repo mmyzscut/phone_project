@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.Suppress;
 import android.util.Log;
 
 import com.robotium.solo.Solo;
@@ -38,7 +39,7 @@ public class N01_TestRegister extends ActivityInstrumentationTestCase2<MainActiv
 			"sdhfjkha,1234567,123456789012,false,请输入11位手机号码或留空",
 			"lsdfkkljsda,1234567,12345678901,false,请输入短信验证码",
 			"sdhfjkha,1234567,123456789,false,请输入11位手机号码或留空",
-			"ajkdjflerlsd,1234567,12345678901,true,帐号注册成功"};
+			"ajkdjfldh,1234567,12345678901,true,帐号注册成功"};
 	
 	public N01_TestRegister(){
 		super(MainActivity.class);
@@ -58,7 +59,7 @@ public class N01_TestRegister extends ActivityInstrumentationTestCase2<MainActiv
 	
 	
 	//测试点击注册界面的偶玩服务条款连接
-	@Test
+	@Suppress
 	public void testRegister_1(){
 		Log.v("testRegister_1", "第一个Case开始");
 		Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
@@ -91,7 +92,7 @@ public class N01_TestRegister extends ActivityInstrumentationTestCase2<MainActiv
 				Tools.clickById(solo, Tools.BIND_BOX, null);
 			}
 			actual = Tools.clickById(solo, Tools.REGISTER_BTN, arr[4]);
-			assertEquals(Tools.REGISTER_BTN+":"+arr[4],expected,actual);
+			assertEquals(Tools.REGISTER_BTN+":"+testData[i],expected,actual);
 			solo.goBack();
 			solo.sleep(3000);
 		}

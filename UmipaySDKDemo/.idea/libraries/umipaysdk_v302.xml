@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="umipaysdk_v302">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/umipaysdk_v302.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
