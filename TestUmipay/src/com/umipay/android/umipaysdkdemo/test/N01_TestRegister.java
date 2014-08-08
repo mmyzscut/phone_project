@@ -38,7 +38,9 @@ public class N01_TestRegister extends ActivityInstrumentationTestCase2<MainActiv
 			"sdhfjkha,1234567,123456789012,false,请输入11位手机号码或留空",
 			"lsdfkkljsda,1234567,12345678901,false,请输入短信验证码",
 			"sdhfjkha,1234567,123456789,false,请输入11位手机号码或留空",
-			"ajkdjflerlsd,1234567,12345678901,true,帐号注册成功"};
+			"ajkdjflerlsd,1234567,12345678901,true,帐号注册成功"//注册的帐号每次重新运行都需要改动一下，改成未注册过的帐号
+	    
+	};
 	
 	public N01_TestRegister(){
 		super(MainActivity.class);
@@ -91,7 +93,7 @@ public class N01_TestRegister extends ActivityInstrumentationTestCase2<MainActiv
 				Tools.clickById(solo, Tools.BIND_BOX, null);
 			}
 			actual = Tools.clickById(solo, Tools.REGISTER_BTN, arr[4]);
-			assertEquals(Tools.REGISTER_BTN+":"+arr[4],expected,actual);
+			assertEquals(Tools.REGISTER_BTN+":"+testData[i],expected,actual);
 			solo.goBack();
 			solo.sleep(3000);
 		}
