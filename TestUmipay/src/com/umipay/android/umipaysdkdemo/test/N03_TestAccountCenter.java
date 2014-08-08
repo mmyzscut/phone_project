@@ -130,7 +130,7 @@ public class N03_TestAccountCenter extends ActivityInstrumentationTestCase2<Main
 	//测试绑定偶玩帐号
 	@Test
 	public void testAccountCenter_5(){
-		String name = "Helle1234";
+		String name = "Helle1234";//此处也要更新帐号
 		String psw = "1234567";
 		//选择一键登录并进入帐号中心的帐号绑定界面
 		Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
