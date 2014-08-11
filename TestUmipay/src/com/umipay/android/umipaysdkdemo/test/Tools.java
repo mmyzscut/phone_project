@@ -208,4 +208,13 @@ public class Tools {
 		}
 	}
 	
+	public static String loggingMsg(boolean expected, boolean actual, String pic){
+		String msg = null;
+		msg = "Expected is " + expected + " but actual is " + actual;
+		if(!(pic == "")){
+			
+		}
+		return msg;
+	}
+	
 }

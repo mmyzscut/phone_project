@@ -2,14 +2,23 @@ package com.umipay.android.umipaysdkdemo.test;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import org.apache.log4j.HTMLLayout;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.WriterAppender;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.Suppress;
 import android.util.Log;
 
 import com.robotium.solo.Solo;
@@ -17,57 +26,95 @@ import com.umipay.android.umipaysdkdemo.MainActivity;
 
 public class N00_TestMain extends ActivityInstrumentationTestCase2<MainActivity>{
 	private Solo solo;
+	private Logger logger = Logger.getLogger(N00_TestMain.class);
+	private HTMLLayout layout;
+	private WriterAppender appender = null;
 	
 	public N00_TestMain(){
 		super(MainActivity.class);
+		logger.setLevel(Level.DEBUG);
+		layout = new HTMLLayout();
+		try{			
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-ddHH-mm-ss");
+			String file = df.format(new Date()) + ".html";
+			FileOutputStream output = new FileOutputStream("/sdcard/" + file);
+			appender = new WriterAppender(layout, output);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		logger.addAppender(appender);		
 	}
 	
 	@Before
 	public void setUp() throws Exception{
-		Log.v("N00_TestMain", "执行setup()");
+		logger.debug("N00_TestMain:setup()");
+		//Log.v("N00_TestMain", "执行setup()");
 		solo = new Solo(getInstrumentation(),getActivity());
 	}
 	
 	@After
 	public void tearDown() throws Exception{
-		Log.v("N00_TestMain", "执行tearDown()");
+		logger.debug("N00_TestMain:tearDown()");
 		solo.finishOpenedActivities();
+		Activity current = getActivity();
+		if(current != null)
+			current.finish();
+		super.tearDown();
 	}
 	
 	
 	//测试未登录时主界面各个按钮点击情况
 	@Test
 	public void testMain_1(){
-		Log.v("testMain_1", "第一个Case开始");
+		logger.debug("testMain_1()");
 		boolean expected = true;
 		//测试点击“注册登录”按钮
+		logger.info("click button " + Tools.LOGIN_OR_REGISTER_BTN);
 		boolean actual = Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
-		assertEquals(Tools.LOGIN_OR_REGISTER_BTN,expected,actual);
+		if(actual == false){
+			//solo.takeScreenshot("error_"+ Tools.LOGIN_OR_REGISTER_BTN);
+			logger.error(Tools.loggingMsg(expected, actual, ""));
+		}
 		
 		//测试切换登录和注册窗口
+		logger.info("click button " + Tools.REGISTER_VIEW);
 		actual = Tools.clickById(solo, Tools.REGISTER_VIEW, Tools.REGISTER_NAME_INPUT);
-		assertEquals(Tools.REGISTER_VIEW,expected,actual);
+		if(actual == false){
+			logger.error(Tools.loggingMsg(expected, actual, ""));
+		}
+		logger.info("click button " + Tools.LOGIN_VIEW);
 		actual = Tools.clickById(solo, Tools.LOGIN_VIEW, Tools.LOGIN_SIGN);
-		assertEquals(Tools.LOGIN_VIEW,expected,actual);
+		if(actual == false){
+			logger.error(Tools.loggingMsg(expected, actual, ""));
+		}
 		solo.goBack();
-		
+		solo.waitForText(Tools.MAIN_SIGN);
 		//测试未登录时点击主界面各按钮
-		actual = Tools.clickById(solo, Tools.RATE_PAY,Tools.LOGIN_SIGN);
-		assertEquals(Tools.RATE_PAY,expected,actual);
+		logger.info("click button " + Tools.RATE_PAY);
+		actual = Tools.clickById(solo, Tools.RATE_PAY, Tools.LOGIN_SIGN);
+		if(actual == false){
+			logger.error(Tools.loggingMsg(expected, actual, ""));
+		}
 		solo.goBack();
-		
+		solo.waitForText(Tools.MAIN_SIGN);
+		logger.info("click button " + Tools.QUOTA_PAY);
 		actual = Tools.clickById(solo, Tools.QUOTA_PAY, Tools.LOGIN_SIGN);
-		assertEquals(Tools.QUOTA_PAY,expected,actual);
+		if(actual == false){
+			logger.error(Tools.loggingMsg(expected, actual, ""));
+		}
 		solo.goBack();
-		
+		solo.waitForText(Tools.MAIN_SIGN);		
+		logger.info("click button " + Tools.ACCOUNT_CENTER);
 		actual = Tools.clickById(solo, Tools.ACCOUNT_CENTER, Tools.LOGIN_SIGN);
-		assertEquals(Tools.ACCOUNT_CENTER, expected, actual);
+		if(actual == false){
+			logger.error(Tools.loggingMsg(expected, actual, ""));
+		}
 		solo.goBack();
 		solo.sleep(2000);		
 	}
 	
 	//测试登录后各个按钮点击情况
-	@Test
+	@Suppress
 	public void testMain_2(){
 		Log.v("testMain_2", "第二个Case开始");
 		boolean expected = true;
