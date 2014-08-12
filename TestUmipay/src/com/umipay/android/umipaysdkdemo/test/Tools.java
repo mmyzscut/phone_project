@@ -1,5 +1,14 @@
 package com.umipay.android.umipaysdkdemo.test;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.apache.log4j.HTMLLayout;
+import org.apache.log4j.Logger;
+import org.apache.log4j.WriterAppender;
+
 import com.robotium.solo.By;
 import com.robotium.solo.Solo;
 import android.app.Activity;
@@ -137,6 +146,7 @@ public class Tools {
 		}catch(Exception ex){
 			Log.e("testUmipay", ex.getMessage());
 		}
+		
 		return res;
 	}
 	
@@ -208,6 +218,7 @@ public class Tools {
 		}
 	}
 	
+	/*
 	public static String loggingMsg(boolean expected, boolean actual, String pic){
 		String msg = null;
 		msg = "Expected is " + expected + " but actual is " + actual;
@@ -217,4 +228,22 @@ public class Tools {
 		return msg;
 	}
 	
+	public static Logger initLogger(Class clazz){
+		Logger logger = Logger.getLogger(clazz);
+		WriterAppender appender = null;
+		String filePath = "/sdcard/";
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-ddHH-mm-ss");
+		String file = clazz.getName()+"-"+df.format(new Date()) + ".html";
+		try {
+			FileOutputStream output = new FileOutputStream(filePath + file);			
+			HTMLLayout layout = new HTMLLayout();
+			appender = new WriterAppender(layout,output);
+			logger.addAppender(appender);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return logger;
+	}
+	*/
 }

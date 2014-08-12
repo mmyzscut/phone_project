@@ -26,35 +26,20 @@ import com.umipay.android.umipaysdkdemo.MainActivity;
 
 public class N00_TestMain extends ActivityInstrumentationTestCase2<MainActivity>{
 	private Solo solo;
-	private Logger logger = Logger.getLogger(N00_TestMain.class);
 	private HTMLLayout layout;
 	private WriterAppender appender = null;
 	
-	public N00_TestMain(){
+	public N00_TestMain(){		
 		super(MainActivity.class);
-		logger.setLevel(Level.DEBUG);
-		layout = new HTMLLayout();
-		try{			
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-ddHH-mm-ss");
-			String file = df.format(new Date()) + ".html";
-			FileOutputStream output = new FileOutputStream("/sdcard/" + file);
-			appender = new WriterAppender(layout, output);
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
-		logger.addAppender(appender);		
 	}
 	
 	@Before
 	public void setUp() throws Exception{
-		logger.debug("N00_TestMain:setup()");
-		//Log.v("N00_TestMain", "执行setup()");
 		solo = new Solo(getInstrumentation(),getActivity());
 	}
 	
 	@After
 	public void tearDown() throws Exception{
-		logger.debug("N00_TestMain:tearDown()");
 		solo.finishOpenedActivities();
 		Activity current = getActivity();
 		if(current != null)
@@ -66,57 +51,41 @@ public class N00_TestMain extends ActivityInstrumentationTestCase2<MainActivity>
 	//测试未登录时主界面各个按钮点击情况
 	@Test
 	public void testMain_1(){
-		logger.debug("testMain_1()");
 		boolean expected = true;
 		//测试点击“注册登录”按钮
-		logger.info("click button " + Tools.LOGIN_OR_REGISTER_BTN);
 		boolean actual = Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
-		if(actual == false){
-			//solo.takeScreenshot("error_"+ Tools.LOGIN_OR_REGISTER_BTN);
-			logger.error(Tools.loggingMsg(expected, actual, ""));
-		}
+		assertEquals(Tools.LOGIN_OR_REGISTER_BTN, expected, actual);
 		
 		//测试切换登录和注册窗口
-		logger.info("click button " + Tools.REGISTER_VIEW);
 		actual = Tools.clickById(solo, Tools.REGISTER_VIEW, Tools.REGISTER_NAME_INPUT);
-		if(actual == false){
-			logger.error(Tools.loggingMsg(expected, actual, ""));
-		}
-		logger.info("click button " + Tools.LOGIN_VIEW);
+		assertEquals(Tools.REGISTER_VIEW, expected, actual);
 		actual = Tools.clickById(solo, Tools.LOGIN_VIEW, Tools.LOGIN_SIGN);
-		if(actual == false){
-			logger.error(Tools.loggingMsg(expected, actual, ""));
-		}
+		assertEquals(Tools.LOGIN_VIEW, expected, actual);
 		solo.goBack();
 		solo.waitForText(Tools.MAIN_SIGN);
+		
 		//测试未登录时点击主界面各按钮
-		logger.info("click button " + Tools.RATE_PAY);
 		actual = Tools.clickById(solo, Tools.RATE_PAY, Tools.LOGIN_SIGN);
-		if(actual == false){
-			logger.error(Tools.loggingMsg(expected, actual, ""));
-		}
+		assertEquals(Tools.RATE_PAY, expected, actual);
 		solo.goBack();
 		solo.waitForText(Tools.MAIN_SIGN);
-		logger.info("click button " + Tools.QUOTA_PAY);
+		
 		actual = Tools.clickById(solo, Tools.QUOTA_PAY, Tools.LOGIN_SIGN);
-		if(actual == false){
-			logger.error(Tools.loggingMsg(expected, actual, ""));
-		}
+		assertEquals(Tools.QUOTA_PAY, expected, actual);
 		solo.goBack();
 		solo.waitForText(Tools.MAIN_SIGN);		
-		logger.info("click button " + Tools.ACCOUNT_CENTER);
+
 		actual = Tools.clickById(solo, Tools.ACCOUNT_CENTER, Tools.LOGIN_SIGN);
-		if(actual == false){
-			logger.error(Tools.loggingMsg(expected, actual, ""));
-		}
+		assertEquals(Tools.ACCOUNT_CENTER, expected, actual);
 		solo.goBack();
 		solo.sleep(2000);		
 	}
 	
+	
 	//测试登录后各个按钮点击情况
-	@Suppress
+	@Test
 	public void testMain_2(){
-		Log.v("testMain_2", "第二个Case开始");
+		//logger.info("Second Case");
 		boolean expected = true;
 		boolean actual = false;
 		String input_name = "1120123962@qq.com";//正确帐号
@@ -143,5 +112,5 @@ public class N00_TestMain extends ActivityInstrumentationTestCase2<MainActivity>
 		solo.goBack();
 		solo.sleep(2000);
 	}
-		
+	
 }
