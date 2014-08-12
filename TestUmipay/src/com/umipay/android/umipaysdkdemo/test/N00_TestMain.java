@@ -101,7 +101,7 @@ public class N00_TestMain extends ActivityInstrumentationTestCase2<MainActivity>
 		actual = Tools.clickById(solo, Tools.RATE_PAY, Tools.RATE_PAY_SIGN);
 		assertEquals(Tools.RATE_PAY,expected,actual);
 		solo.goBack();
-		
+		solo.waitForText(Tools.MAIN_SIGN);
 		actual = Tools.clickById(solo, Tools.QUOTA_PAY, Tools.QUOTA_PAY_SIGN);
 		assertEquals(Tools.QUOTA_PAY,expected,actual);
 		solo.goBack();

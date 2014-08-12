@@ -39,7 +39,7 @@ public class N02_TestLogin extends ActivityInstrumentationTestCase2<MainActivity
 	}
 	
 	//测试登录界面的连接是否可达相应界面
-	@Suppress
+	@Test
 	public void testLogin_1(){
 		Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
 		boolean expected = true;

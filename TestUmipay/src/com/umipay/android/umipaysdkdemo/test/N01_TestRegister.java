@@ -57,7 +57,7 @@ public class N01_TestRegister extends ActivityInstrumentationTestCase2<MainActiv
 	
 	
 	//测试点击注册界面的偶玩服务条款连接
-	@Suppress
+	@Test
 	public void testRegister_1(){
 		Log.v("testRegister_1", "第一个Case开始");
 		Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
