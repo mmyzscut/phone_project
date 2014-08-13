@@ -23,7 +23,6 @@ public class RegistrationTest extends ActivityInstrumentationTestCase2<MainActiv
 
 	final String TAG = "autotest";
 	public RegistrationTest() {
-	
 		super(MainActivity.class);
 	}
 
