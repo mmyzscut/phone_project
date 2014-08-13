@@ -12,9 +12,13 @@ import org.apache.log4j.WriterAppender;
 import com.robotium.solo.By;
 import com.robotium.solo.Solo;
 import android.app.Activity;
+import android.content.Context;
+import android.test.TouchUtils;
 import android.text.Editable;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -48,7 +52,7 @@ public class Tools {
 	public static final String FIND_PSW = "找回密码";
 	public static final String QQ_OAUTH = "umipay_qq_oauth";
 	public static final String SINA_OAUTH = "umipay_sina_oauth";
-	public static final String QQ_SIGN = "QQ登录";
+	public static final String QQ_SIGN = "亿万用户已选择QQ帐号登录应用";
 	public static final String SINA_SIGN = "授权 偶玩游戏中心 访问你的微博帐号";
 	public static final String MAIN_SIGN = "游戏支付平台";
 	public static final String ORDER_LIST = "订单记录";
@@ -155,11 +159,14 @@ public class Tools {
 		if(text == "")
 			return res;
 		try{
+			
 			EditText et = (EditText) solo.getText(text);
+			//et.setInputType(InputType.TYPE_NULL);
 			solo.typeText(et, input_text);
 			//solo.enterText(et, input_text);
 			solo.sleep(sleepTime);
 			res = true;
+			
 		}catch(Exception ex){
 			Log.e("testUmipay", ex.getMessage());
 		}
@@ -172,6 +179,7 @@ public class Tools {
 			Activity act = solo.getCurrentActivity();
 			int id = act.getResources().getIdentifier(strid, "id", act.getPackageName());
 			EditText et = (EditText)solo.getView(id);
+			//et.setInputType(InputType.TYPE_NULL);
 			solo.typeText(et, text);
 			//solo.enterText(et, text);
 			solo.sleep(sleepTime);
@@ -218,32 +226,28 @@ public class Tools {
 		}
 	}
 	
-	/*
-	public static String loggingMsg(boolean expected, boolean actual, String pic){
-		String msg = null;
-		msg = "Expected is " + expected + " but actual is " + actual;
-		if(!(pic == "")){
-			
+	public static boolean login(Solo solo, String name, String psw, String sign){
+		boolean actual = false;
+		Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
+		Tools.removeText(solo, Tools.NAME_BOX);
+		Tools.enterTextById(solo, Tools.NAME_BOX, name, 1000);
+		Tools.enterTextById(solo, Tools.PSW_BOX, psw, 1000);
+		actual = Tools.clickById(solo, Tools.LOGIN_BTN, sign);
+		if(sign == Tools.LOGIN_SUCCESS_SIGN){
+			solo.waitForText(Tools.MAIN_SIGN);
+		}else{
+			solo.goBack();
+			solo.waitForText(Tools.MAIN_SIGN);
 		}
-		return msg;
+		return actual;
 	}
 	
-	public static Logger initLogger(Class clazz){
-		Logger logger = Logger.getLogger(clazz);
-		WriterAppender appender = null;
-		String filePath = "/sdcard/";
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-ddHH-mm-ss");
-		String file = clazz.getName()+"-"+df.format(new Date()) + ".html";
-		try {
-			FileOutputStream output = new FileOutputStream(filePath + file);			
-			HTMLLayout layout = new HTMLLayout();
-			appender = new WriterAppender(layout,output);
-			logger.addAppender(appender);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return logger;
+	public static boolean fastLogin(Solo solo){
+		boolean actual = false;
+		Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
+		actual = Tools.clickByText(solo, Tools.LOGIN_SIGN, Tools.LOGIN_SUCCESS_SIGN);
+		solo.waitForText(Tools.MAIN_SIGN);
+		return actual;
 	}
-	*/
+	
 }

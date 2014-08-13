@@ -26,8 +26,8 @@ import com.umipay.android.umipaysdkdemo.MainActivity;
 
 public class N00_TestMain extends ActivityInstrumentationTestCase2<MainActivity>{
 	private Solo solo;
-	private HTMLLayout layout;
-	private WriterAppender appender = null;
+	private boolean actual = false;
+	private boolean expected = true;
 	
 	public N00_TestMain(){		
 		super(MainActivity.class);
@@ -50,10 +50,10 @@ public class N00_TestMain extends ActivityInstrumentationTestCase2<MainActivity>
 	
 	//测试未登录时主界面各个按钮点击情况
 	@Test
+	
 	public void testMain_1(){
-		boolean expected = true;
 		//测试点击“注册登录”按钮
-		boolean actual = Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
+		actual = Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
 		assertEquals(Tools.LOGIN_OR_REGISTER_BTN, expected, actual);
 		
 		//测试切换登录和注册窗口
@@ -86,17 +86,11 @@ public class N00_TestMain extends ActivityInstrumentationTestCase2<MainActivity>
 	@Test
 	public void testMain_2(){
 		//logger.info("Second Case");
-		boolean expected = true;
-		boolean actual = false;
-		String input_name = "1120123962@qq.com";//正确帐号
-		String input_psw = "liminmin217";//正确密码
-		Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
-		Tools.removeText(solo, Tools.NAME_BOX);
-		Tools.enterTextById(solo, Tools.NAME_BOX, input_name, 1000);
-		Tools.enterTextById(solo, Tools.PSW_BOX, input_psw, 1000);
-		actual = Tools.clickById(solo, Tools.LOGIN_BTN, Tools.LOGIN_SUCCESS_SIGN);
+		String input_name = "abcdefghgg";//正确帐号
+		String input_psw = "1234567";//正确密码
+		actual = Tools.login(solo, input_name, input_psw, Tools.LOGIN_SUCCESS_SIGN);
 		assertEquals(Tools.LOGIN_BTN,expected,actual);
-		solo.sleep(2000);
+		//solo.sleep(2000);
 		
 		actual = Tools.clickById(solo, Tools.RATE_PAY, Tools.RATE_PAY_SIGN);
 		assertEquals(Tools.RATE_PAY,expected,actual);

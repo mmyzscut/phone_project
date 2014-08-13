@@ -34,7 +34,7 @@ public class N03_TestAccountCenter extends ActivityInstrumentationTestCase2<Main
 	}
 	
 	//测试是否绑定偶玩帐号对账户中心的影响
-	@Test
+	@Suppress
 	public void testAccountCenter_1(){		
 		//一键登录
 		Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
@@ -57,10 +57,9 @@ public class N03_TestAccountCenter extends ActivityInstrumentationTestCase2<Main
 	}
 	
 	//测试一键登录情况下的账户中心
-	@Test
+	@Suppress
 	public void testAccountCenter_2(){
-		Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
-		Tools.clickByText(solo, Tools.LOGIN_SIGN, Tools.MAIN_SIGN);
+		Tools.fastLogin(solo);
 		Tools.clickById(solo, Tools.ACCOUNT_CENTER, Tools.ACCOUNT_FAST_SIGN);
 		//测试点击订单记录
 		actual = Tools.clickByText(solo, Tools.ORDER_LIST, Tools.ORDER_SIGN);
@@ -90,7 +89,7 @@ public class N03_TestAccountCenter extends ActivityInstrumentationTestCase2<Main
 	}	
 	
 	//测试订单记录界面、问题反馈界面
-	@Test
+	@Suppress
 	public void testAccountCenter_3(){
 		Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
 		Tools.clickByText(solo, Tools.LOGIN_SIGN, Tools.MAIN_SIGN);
@@ -128,13 +127,12 @@ public class N03_TestAccountCenter extends ActivityInstrumentationTestCase2<Main
 	}
 	
 	//测试绑定偶玩帐号
-	@Test
+	@Suppress
 	public void testAccountCenter_5(){
 		String name = Tools.getRandomName(10);
 		String psw = "1234567";
 		//选择一键登录并进入帐号中心的帐号绑定界面
-		Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
-		Tools.clickByText(solo, Tools.LOGIN_SIGN, Tools.MAIN_SIGN);
+		Tools.fastLogin(solo);
 		Tools.clickById(solo, Tools.ACCOUNT_CENTER, Tools.ACCOUNT_FAST_SIGN);
 		Tools.clickByText(solo, Tools.ACCOUNT_BIND, Tools.ACCOUNT_BIND_SIGN);
 		//输入用户名及密码
@@ -147,7 +145,7 @@ public class N03_TestAccountCenter extends ActivityInstrumentationTestCase2<Main
 	}
 	
 	//测试修改密码
-	@Test
+	@Suppress
 	public void testAccountCenter_6(){
 		String test_name = "abcdefkk";
 		String psw = "1234567";
@@ -160,12 +158,8 @@ public class N03_TestAccountCenter extends ActivityInstrumentationTestCase2<Main
 				"123456789012345,1234567,success"				
 		};
 		int len = testData.length;
-		Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
-		Tools.removeText(solo, Tools.NAME_BOX);
-		Tools.enterTextById(solo, Tools.NAME_BOX, test_name, 0);
-		Tools.enterTextById(solo, Tools.PSW_BOX, psw, 0);
-		Tools.clickById(solo, Tools.LOGIN_BTN, Tools.LOGIN_SUCCESS_SIGN);
-		solo.waitForText(Tools.MAIN_SIGN);
+		
+		Tools.login(solo, test_name, psw, Tools.LOGIN_SUCCESS_SIGN);		
 		Tools.clickById(solo, Tools.ACCOUNT_CENTER, Tools.ACCOUNT_USER_SIGN);
 		actual = Tools.clickByText(solo, Tools.ACCOUNT_USER_SIGN, Tools.ACCOUNT_USER_SIGN);
 		assertEquals(Tools.ACCOUNT_USER_SIGN, expected, actual);
@@ -190,5 +184,28 @@ public class N03_TestAccountCenter extends ActivityInstrumentationTestCase2<Main
 		}
 		
 	}
+	
+	//测试修改密码后重新登录
+	@Test
+	public void testAccountCenter_7(){
+		String name = "abcdefkk";
+		String oldpsw = "1234567";
+		String newpsw = "12345678";
+		Tools.login(solo, name, oldpsw, Tools.LOGIN_SUCCESS_SIGN);
+		Tools.clickById(solo, Tools.ACCOUNT_CENTER, Tools.ACCOUNT_USER_SIGN);
+		actual = Tools.clickByText(solo, Tools.ACCOUNT_USER_SIGN, Tools.ACCOUNT_USER_SIGN);
+		assertEquals(Tools.ACCOUNT_USER_SIGN, expected, actual);
+		Tools.enterTextInWeb(solo, Tools.OLD_PSW, oldpsw, 0);
+		Tools.enterTextInWeb(solo, Tools.NEW_PSW, newpsw, 0);
+		actual = Tools.clickOnWebByClassName(solo, Tools.PSW_CHANGE_SUBMIT, Tools.CHANGE_PSW_SUCCESS);
+		assertEquals(Tools.PSW_CHANGE_SUBMIT, expected, actual);
+		actual = Tools.clickByText(solo, Tools.BACK_TO_MAIN, Tools.MAIN_SIGN);
+		assertEquals(Tools.BACK_TO_MAIN, expected, actual);
+		actual = Tools.login(solo, name, newpsw, Tools.LOGIN_SUCCESS_SIGN);
+		assertEquals(Tools.LOGIN_BTN, expected, actual);
+		solo.waitForText(Tools.MAIN_SIGN);
+	}
+	
+	
 	
 }

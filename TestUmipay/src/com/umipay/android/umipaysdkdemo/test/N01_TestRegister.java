@@ -13,10 +13,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import android.app.Instrumentation;
+import android.content.Context;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.TouchUtils;
 import android.test.suitebuilder.annotation.Suppress;
 import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.robotium.solo.Solo;
 import com.umipay.android.umipaysdkdemo.MainActivity;
@@ -74,13 +79,13 @@ public class N01_TestRegister extends ActivityInstrumentationTestCase2<MainActiv
 	public void testRegister_2(){
 		Log.v("testRegister_2", "第二个Case开始");
 		String line;
-		boolean expected = true;
+		boolean expected = true;		
 		for(int i=0;i<testData.length;i++){
 			boolean actual = false;
 			line = testData[i];
 			String[] arr = line.split(",");
-			Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
-			Tools.clickById(solo, Tools.REGISTER_VIEW, Tools.REGISTER_SIGN);
+			Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);			
+			Tools.clickById(solo, Tools.REGISTER_VIEW, Tools.REGISTER_SIGN);			
 			Tools.enterTextByText(solo, Tools.REGISTER_NAME_INPUT, arr[0], 0);
 			Tools.enterTextByText(solo, Tools.REGISTER_PSW_INPUT, arr[1], 0);
 			if(!arr[2].equals("false")){

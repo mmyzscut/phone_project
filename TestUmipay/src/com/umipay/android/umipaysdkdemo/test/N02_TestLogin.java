@@ -12,7 +12,8 @@ import com.robotium.solo.Solo;
 import com.umipay.android.umipaysdkdemo.MainActivity;
 
 public class N02_TestLogin extends ActivityInstrumentationTestCase2<MainActivity>{
-
+	private boolean expected = true;
+	private boolean actual = false;
 	private Solo solo;
 	private String[] testData = {
 			"ABCDEFKK,1234567,success",
@@ -42,8 +43,6 @@ public class N02_TestLogin extends ActivityInstrumentationTestCase2<MainActivity
 	@Test
 	public void testLogin_1(){
 		Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
-		boolean expected = true;
-		boolean actual = false;
 		
 		//测试点击忘记密码链接
 		actual = Tools.clickByText(solo, Tools.FORGET_PSW, Tools.FIND_PSW);
@@ -74,32 +73,24 @@ public class N02_TestLogin extends ActivityInstrumentationTestCase2<MainActivity
 	//测试正常登录功能
 	@Test
 	public void testLogin_2(){
-		boolean expected = true;
-		boolean actual = false;
 		int len = testData.length;
-		Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
-		
-		//测试“一键试玩”
-		actual = Tools.clickByText(solo, Tools.LOGIN_SIGN, Tools.LOGIN_SUCCESS_SIGN);
-		assertEquals( Tools.LOGIN_SUCCESS_SIGN, expected, actual);
-		solo.waitForText(Tools.MAIN_SIGN);
-		Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
-		
 		//使用测试数据测试帐号登录
 		for(int i=0;i<len;i++){
 			String[] arr = testData[i].split(",");
-			Tools.removeText(solo, Tools.NAME_BOX);
-			Tools.enterTextById(solo, Tools.NAME_BOX, arr[0], 1000);
-			Tools.enterTextById(solo, Tools.PSW_BOX, arr[1], 1000);
 			if(arr[2].equals("success")){
-				actual = Tools.clickById(solo, Tools.LOGIN_BTN, Tools.LOGIN_SUCCESS_SIGN);
+				actual = Tools.login(solo, arr[0], arr[1], Tools.LOGIN_SUCCESS_SIGN);
 				assertEquals(Tools.LOGIN_BTN+":"+testData[i], expected, actual);
-				solo.waitForText(Tools.MAIN_SIGN);
-				Tools.clickById(solo, Tools.LOGIN_OR_REGISTER_BTN, Tools.LOGIN_SIGN);
 			}else{
-				actual = Tools.clickById(solo, Tools.LOGIN_BTN, arr[2]);
+				actual = Tools.login(solo, arr[0], arr[1], arr[2]);
 				assertEquals(Tools.LOGIN_BTN, expected, actual);
 			}
 		}
+	}
+	
+	//测试“一键试玩”
+	@Test
+	public void testLogin_3(){
+		actual = Tools.fastLogin(solo);
+		assertEquals(Tools.LOGIN_SIGN, expected, actual);
 	}
 }
